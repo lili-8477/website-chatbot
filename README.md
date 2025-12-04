@@ -1,6 +1,6 @@
 # 🤖 Website Chatbot
 
-An intelligent chatbot that dynamically crawls websites to answer user questions. Built with PocketFlow agent framework and FastAPI.
+An intelligent chatbot that dynamically crawls websites to answer user questions in real-time. Built with PocketFlow agent framework and FastAPI.
 
 <p align="center">
   <a href="https://github.com/The-Pocket/PocketFlow" target="_blank">
@@ -10,258 +10,360 @@ An intelligent chatbot that dynamically crawls websites to answer user questions
   </a>
 </p>
 
+## ✨ Live Demo
+
+🔗 **Try it live**: [https://website-chatbot.ai-builders.space](https://website-chatbot.ai-builders.space) *(Available after deployment)*
+
 ## 🚀 Features
 
-- **Intelligent Website Crawling**: Dynamically navigates websites to gather relevant information
-- **Agent-Based Decision Making**: Uses PocketFlow's agent pattern to decide when to explore vs. answer
-- **Real-time Web Interface**: Clean, responsive chat interface
-- **Multi-page Analysis**: Can explore multiple pages to provide comprehensive answers
-- **Transparent Process**: Shows which pages were explored for each answer
+- **🧠 Intelligent Agent**: Uses PocketFlow's agent pattern to make smart decisions about when to explore vs. answer
+- **🔍 Dynamic Website Crawling**: Reads websites in real-time, navigating through multiple pages to find relevant information
+- **🎯 Context-Aware Responses**: Provides comprehensive answers based on actual website content
+- **⚡ Real-time Web Interface**: Clean, responsive chat interface with live status updates
+- **🔗 Multi-page Analysis**: Intelligently explores multiple pages when needed for complete answers
+- **📊 Transparent Process**: Shows exactly which pages were explored for each answer
+- **🐳 Docker Ready**: Optimized for deployment on ai-builders.space platform
 
-## 🛠️ Setup
+## 🛠️ Quick Start
 
-### Prerequisites
+### 1. Clone the Repository
 
-- Python 3.8+
-- OpenAI API Key
+```bash
+git clone https://github.com/lili-8477/website-chatbot.git
+cd website-chatbot
+```
 
-### Quick Setup
-
-Run the automated setup script:
+### 2. Automated Setup
 
 ```bash
 python setup.py
 ```
 
-This will:
-- Check Python version compatibility
-- Install all dependencies
-- Create .env file from template
-- Validate the installation
+This script will:
+- ✅ Check Python version compatibility (3.8+)
+- ✅ Install all dependencies
+- ✅ Create .env file from template
+- ✅ Validate the installation
 
-Then edit `.env` file and add your OpenAI API key.
+### 3. Configure API Key
 
-### Manual Installation
+Edit the `.env` file and add your OpenAI API key:
 
-1. **Clone/Navigate to the project directory**
-   ```bash
-   cd /path/to/PocketFlow-Template-Python
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   # Then edit .env file and add your OpenAI API key
-   ```
-
-### 🧪 Testing
-
-Run the test script to validate the installation:
-
-```bash
-python test_chatbot.py
+```env
+OPENAI_API_KEY=your-openai-api-key-here
+DEFAULT_WEBSITE_URL=https://github.com/langchain-ai/agent-chat-ui
 ```
 
-This will test:
-- Utility functions (web scraping, URL processing)
-- Basic chatbot functionality
-- Integration between components
+Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys).
 
-### 🚀 Running the Application
-
-1. **Start the server**
-   ```bash
-   python main.py
-   ```
-
-2. **Open your browser**
-   Navigate to: `http://localhost:8000`
-
-3. **Use the chatbot**
-   - Set a website URL in the configuration panel
-   - Ask questions about the website content
-   - Watch as the bot intelligently explores the site to find answers
-
-## 📡 API Endpoints
-
-### Main Endpoints
-
-- `GET /` - Web interface
-- `POST /chat` - Chat with the bot
-- `POST /configure` - Set target website URL
-- `GET /config` - Get current configuration
-- `GET /health` - Health check
-
-### Chat API Example
+### 4. Run the Application
 
 ```bash
-curl -X POST "http://localhost:8000/chat" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "question": "What are your refund policies?",
-       "website_url": "https://example.com"
-     }'
+python main.py
 ```
+
+Open your browser and go to: **http://localhost:8000**
+
+## 🎮 How to Use
+
+1. **Set Website URL**: Enter any website URL in the configuration panel
+2. **Ask Questions**: Type questions about the website content
+3. **Watch the Magic**: The agent will intelligently crawl the site to find answers
+4. **Get Comprehensive Answers**: Receive detailed responses based on multiple pages if needed
+
+### Example Questions to Try
+
+- "What is this website about?"
+- "How do I get started?"
+- "What are the main features?"
+- "Do you have documentation?"
+- "What are the pricing options?"
 
 ## 🏗️ Architecture
 
-The chatbot uses PocketFlow's **Agent** design pattern:
+The chatbot implements PocketFlow's **Agent Design Pattern**:
 
 ```mermaid
 flowchart TD
     start[User Question] --> crawl[CrawlAndExtract Node]
     crawl --> agent[AgentDecision Node]
-    agent -->|explore| crawl
-    agent -->|answer| draft[DraftAnswer Node]
-    draft --> end[Final Answer]
+    agent -->|🔍 explore| crawl
+    agent -->|💬 answer| draft[DraftAnswer Node]
+    draft --> end[📝 Final Answer]
+    
+    style agent fill:#e1f5fe
+    style crawl fill:#f3e5f5
+    style draft fill:#e8f5e8
 ```
 
 ### Key Components
 
-1. **CrawlAndExtract Node**: Scrapes web pages and extracts relevant content
-2. **AgentDecision Node**: Decides whether to explore more or answer
-3. **DraftAnswer Node**: Generates comprehensive final answers
-4. **FastAPI Backend**: REST API and web server
-5. **HTML/CSS/JS Frontend**: Interactive chat interface
+1. **🔍 CrawlAndExtract Node**
+   - Scrapes web pages and extracts clean content
+   - Finds relevant links based on question keywords
+   - Handles various content types (HTML, text, etc.)
+
+2. **🧠 AgentDecision Node**
+   - Uses GPT to make intelligent decisions
+   - Decides whether to explore more pages or answer
+   - Considers collected context and question complexity
+
+3. **📝 DraftAnswer Node**
+   - Generates comprehensive final answers
+   - Synthesizes information from multiple pages
+   - Provides transparent source attribution
+
+4. **⚡ FastAPI Backend**
+   - Single-process architecture serving both API and static files
+   - RESTful endpoints with proper error handling
+   - Health checks and monitoring
+
+5. **🎨 Frontend Interface**
+   - Responsive design with real-time updates
+   - Progress indicators and status messages
+   - Clean, intuitive user experience
+
+## 📡 API Reference
+
+### Chat Endpoint
+
+```bash
+curl -X POST "http://localhost:8000/chat" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "question": "What are the main features?",
+       "website_url": "https://example.com"
+     }'
+```
+
+**Response:**
+```json
+{
+  "answer": "Detailed answer based on website content...",
+  "status": "success",
+  "pages_visited": 2,
+  "urls_explored": [
+    {
+      "url": "https://example.com",
+      "title": "Home Page"
+    },
+    {
+      "url": "https://example.com/features",
+      "title": "Features"
+    }
+  ]
+}
+```
+
+### Other Endpoints
+
+- `GET /` - Web interface
+- `GET /health` - Health check
+- `POST /configure` - Set default website URL
+- `GET /config` - Get current configuration
+
+## 🐳 Docker Deployment
+
+### Local Testing
+
+```bash
+# Build and run locally
+docker build -t website-chatbot .
+docker run -p 8000:8000 \
+  -e PORT=8000 \
+  -e OPENAI_API_KEY=your-key \
+  website-chatbot
+```
+
+Test the deployment:
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Test chat functionality
+curl -X POST "http://localhost:8000/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is this about?", "website_url": "https://github.com/langchain-ai/agent-chat-ui"}'
+```
+
+### 🚀 AI Builders Space Deployment
+
+This project is optimized for deployment on ai-builders.space platform:
+
+#### Prerequisites Check
+
+Run the deployment readiness checker:
+
+```bash
+python check_deployment_ready.py
+```
+
+This will verify:
+- ✅ Dockerfile configuration
+- ✅ Environment variables setup
+- ✅ Static files structure
+- ✅ Requirements.txt completeness
+- ✅ Git repository status
+- ✅ Security configurations
+
+#### Deployment Information Needed
+
+1. **GitHub Repository URL**: `https://github.com/lili-8477/website-chatbot`
+2. **Service Name**: `website-chatbot` (or your preferred name)
+3. **Git Branch**: `main`
+
+#### Platform Features
+
+- 🏗️ **Optimized Architecture**: Single process serving both API and static files
+- 💾 **Memory Efficient**: Designed for 256MB RAM limit
+- ⚙️ **Environment Variables**: Automatic PORT configuration
+- 🔒 **Security**: Non-root user and secure defaults
+- 📊 **Health Monitoring**: Built-in health check endpoints
+- 🔄 **Auto-scaling**: Platform handles traffic spikes
+
+#### Deployment Steps
+
+1. **Commit all changes** to your repository:
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Contact your instructor** or use the deployment API with:
+   - Repository URL: `https://github.com/lili-8477/website-chatbot`
+   - Service name: `website-chatbot`
+   - Branch: `main`
+
+3. **Wait 5-10 minutes** for provisioning
+
+4. **Access your deployed chatbot** at:
+   `https://website-chatbot.ai-builders.space`
+
+## 📂 Project Structure
+
+```
+website-chatbot/
+├── 📄 main.py                 # FastAPI application entry point
+├── 🔄 flow.py                 # PocketFlow workflow definition
+├── 🧩 nodes.py                # Agent node implementations
+├── 📋 requirements.txt        # Python dependencies
+├── 🧪 test_chatbot.py        # Test script
+├── 🔧 setup.py               # Automated setup script
+├── 🐳 Dockerfile             # Container configuration
+├── ✅ check_deployment_ready.py # Deployment validator
+├── ⚙️  .env.example           # Environment template
+├── 🎨 static/                 # Web interface
+│   ├── 📄 index.html         # Frontend HTML
+│   ├── 🎨 style.css          # Styling
+│   └── ⚡ script.js          # JavaScript
+├── 🔧 utils/                  # Utility functions
+│   ├── 🤖 call_llm.py        # OpenAI API wrapper
+│   ├── 🕷️  web_scraper.py     # Web scraping
+│   └── 🔗 url_utils.py       # URL processing
+└── 📚 docs/                   # Documentation
+    └── 📋 design.md          # Technical design
+```
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Create a `.env` file from `.env.example`:
 
-- `OPENAI_API_KEY`: Your OpenAI API key (required) - Get from [OpenAI Platform](https://platform.openai.com/api-keys)
-- `HOST`: Server host (default: 0.0.0.0)
-- `PORT`: Server port (default: 8000)
-- `DEFAULT_WEBSITE_URL`: Default website to analyze (default: https://example.com)
-- `MAX_RETRIES`: Maximum retries for requests (default: 3)
-- `REQUEST_TIMEOUT`: Request timeout in seconds (default: 10)
+```env
+# OpenAI API Configuration
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_MODEL=gpt-4
 
-### Default Settings
+# Server Configuration  
+HOST=0.0.0.0
+PORT=8000
 
-- **Default Website**: `https://example.com`
-- **Server Port**: `8000`
-- **Max Pages**: Limited by agent decision-making
-- **Timeout**: 10 seconds per page
-
-## 📂 Project Structure
-
-```
-project/
-├── main.py                 # FastAPI application entry point
-├── flow.py                 # PocketFlow workflow definition
-├── nodes.py                # PocketFlow node implementations
-├── requirements.txt        # Python dependencies
-├── test_chatbot.py        # Test script
-├── utils/
-│   ├── call_llm.py        # OpenAI API wrapper
-│   ├── web_scraper.py     # Web scraping utilities
-│   └── url_utils.py       # URL processing utilities
-├── static/
-│   ├── index.html         # Frontend HTML
-│   ├── style.css          # Frontend styling
-│   └── script.js          # Frontend JavaScript
-└── docs/
-    └── design.md          # Technical design documentation
+# Application Settings
+DEFAULT_WEBSITE_URL=https://example.com
+MAX_RETRIES=3
+REQUEST_TIMEOUT=10
 ```
 
-## 🎯 Usage Examples
+### Advanced Configuration
 
-### Example Questions
+- **MAX_RETRIES**: Number of retry attempts for failed requests
+- **REQUEST_TIMEOUT**: Timeout in seconds for web scraping
+- **OPENAI_MODEL**: GPT model to use (gpt-4, gpt-3.5-turbo, etc.)
 
-Try asking these types of questions:
+## 🧪 Testing
 
-- "What are your return policies?"
-- "How do I contact customer support?"
-- "What payment methods do you accept?"
-- "Do you offer international shipping?"
-- "What are your business hours?"
+Run comprehensive tests:
 
-### Example Websites
+```bash
+# Test utility functions
+python test_chatbot.py
 
-Good websites to test with:
-- Company websites with clear navigation
-- E-commerce sites with product/policy pages
-- Documentation sites
-- Support/help sites
+# Test individual components
+python -c "from utils.web_scraper import scrape_website; print('✅ Web scraper working')"
+python -c "from utils.call_llm import call_llm; print('✅ LLM integration working')"
+
+# Test the flow
+python -c "from flow import run_chatbot; print('✅ Agent flow working')"
+```
+
+## 🎯 Example Use Cases
+
+### E-commerce Support
+```
+URL: https://shopify.com
+Question: "How do I set up payment methods?"
+Result: Agent explores pricing, features, and setup pages to provide comprehensive guidance.
+```
+
+### Documentation Navigation
+```
+URL: https://fastapi.tiangolo.com
+Question: "How do I handle file uploads?"
+Result: Agent finds and synthesizes information from multiple documentation pages.
+```
+
+### Company Information
+```
+URL: https://github.com/microsoft/vscode
+Question: "What are the main features of this project?"
+Result: Agent reads README, features pages, and documentation to provide detailed overview.
+```
 
 ## 🛠️ Development
 
 ### Adding New Features
 
-1. **New Utility Functions**: Add to `utils/` directory
-2. **New Nodes**: Extend or modify `nodes.py`
-3. **Flow Changes**: Update `flow.py`
-4. **API Changes**: Modify `main.py`
+1. **New Agent Behaviors**: Modify `nodes.py` AgentDecision logic
+2. **Enhanced Scraping**: Extend `utils/web_scraper.py` capabilities
+3. **UI Improvements**: Update `static/` files
+4. **API Extensions**: Add new endpoints in `main.py`
 
-### Testing
+### Code Quality
 
-- Run `python test_chatbot.py` for basic validation
-- Test individual components in their respective files
-- Use the web interface for end-to-end testing
+- **Linting**: Code follows PEP 8 standards
+- **Error Handling**: Comprehensive error handling with retries
+- **Logging**: Structured logging for debugging
+- **Security**: Input validation and safe URL handling
 
 ## 🤝 Contributing
 
-This project demonstrates the PocketFlow framework for building intelligent agents. Feel free to:
+This project demonstrates the PocketFlow framework for building intelligent agents. Contributions welcome:
 
-- Improve the crawling logic
-- Enhance the agent decision-making
-- Add new utility functions
-- Improve the user interface
-- Add more robust error handling
+- 🐛 **Bug Reports**: File issues with detailed descriptions
+- ✨ **Feature Requests**: Propose new agent capabilities
+- 🔧 **Code Improvements**: Submit PRs with tests
+- 📚 **Documentation**: Help improve setup guides
 
-## 🐳 Docker Deployment
+## 📄 License & Credits
 
-### Local Docker Testing
+Built on the [PocketFlow Project Template](https://github.com/The-Pocket/PocketFlow) for Agentic Coding.
 
-```bash
-# Build the Docker image
-docker build -t website-chatbot .
+- 📖 [PocketFlow Documentation](https://the-pocket.github.io/PocketFlow/guide.html)
+- 🎥 [YouTube Tutorial](https://www.youtube.com/@ZacharyLLM?sub_confirmation=1)
+- 🤖 Generated with Claude Code
 
-# Run the container locally
-docker run -p 8000:8000 -e PORT=8000 -e OPENAI_API_KEY=your-key website-chatbot
-```
+---
 
-### AI Builders Space Deployment
-
-This project is ready for deployment to ai-builders.space platform:
-
-#### Prerequisites
-- Public GitHub repository
-- All changes committed and pushed to GitHub
-- OpenAI API key (or will use provided AI_BUILDER_TOKEN)
-
-#### Deployment Information Required:
-1. **GitHub Repository URL**: `https://github.com/username/repo-name`
-2. **Service Name**: Unique name for your service (e.g., `website-chatbot`)
-3. **Git Branch**: Branch to deploy (e.g., `main`)
-
-#### Deployment Features:
-- ✅ Dockerfile optimized for 256MB RAM limit
-- ✅ Proper PORT environment variable handling
-- ✅ Single process architecture (FastAPI serves both API and static files)
-- ✅ Health check endpoints for reliability
-- ✅ Security optimized with non-root user
-- ✅ Static file serving from single process
-
-The deployed service will be available at: `https://your-service-name.ai-builders.space`
-
-### Production Considerations
-
-- **Memory Limit**: 256MB RAM - keep dependencies lean
-- **Port Configuration**: Automatically handled via PORT environment variable
-- **API Keys**: AI_BUILDER_TOKEN provided automatically
-- **Static Files**: Served efficiently from FastAPI process
-- **Health Checks**: Built into Dockerfile for monitoring
-
-## 📄 Original Template
-
-This project was built on the [PocketFlow Project Template](https://github.com/The-Pocket/PocketFlow) for Agentic Coding.
-
-- Learn more about [Agentic Coding Guidance](https://the-pocket.github.io/PocketFlow/guide.html)
-- Check out the [YouTube Tutorial](https://www.youtube.com/@ZacharyLLM?sub_confirmation=1)
+**Ready to deploy your intelligent website chatbot? Follow the deployment instructions above!** 🚀
