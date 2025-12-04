@@ -135,9 +135,21 @@ function addMessage(content, type, isInfo = false) {
         contentDiv.style.opacity = '0.8';
         contentDiv.style.fontFamily = 'monospace';
         contentDiv.style.whiteSpace = 'pre-line';
+        // For info messages, use plain text
+        contentDiv.textContent = content;
+    } else if (type === 'bot') {
+        // For bot messages, render markdown as HTML
+        try {
+            contentDiv.innerHTML = marked.parse(content);
+        } catch (error) {
+            console.error('Markdown parsing error:', error);
+            contentDiv.textContent = content; // Fallback to plain text
+        }
+    } else {
+        // For user messages, use plain text
+        contentDiv.textContent = content;
     }
     
-    contentDiv.textContent = content;
     messageDiv.appendChild(contentDiv);
     
     chatMessages.appendChild(messageDiv);
