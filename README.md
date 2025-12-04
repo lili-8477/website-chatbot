@@ -1,14 +1,6 @@
 # 🤖 Website Chatbot
 
-An intelligent chatbot that dynamically crawls websites to answer user questions in real-time. Built with PocketFlow agent framework and FastAPI.
-
-<p align="center">
-  <a href="https://github.com/The-Pocket/PocketFlow" target="_blank">
-    <img 
-      src="./assets/banner.png" width="800"
-    />
-  </a>
-</p>
+An intelligent chatbot that dynamically crawls websites to answer user questions in real-time. 
 
 ## ✨ Live Demo
 
