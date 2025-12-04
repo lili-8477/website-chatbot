@@ -101,3 +101,6 @@ coverage/
 .windsurfrules
 .goosehints
 .github/copilot-instructions.md
+
+# Local virtual environments
+venv/
