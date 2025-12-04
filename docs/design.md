@@ -1,79 +1,123 @@
-# Design Doc: Your Project Name
-
-> Please DON'T remove notes for AI
+# Design Doc: Website Chatbot
 
 ## Requirements
 
-> Notes for AI: Keep it simple and clear.
-> If the requirements are abstract, write concrete user stories
+Build an intelligent website chatbot that dynamically crawls websites to answer user questions. The bot acts like a focused intern that reads website content in real-time to provide comprehensive answers.
 
+**User Stories:**
+- As a user, I want to ask questions about any website and get accurate answers based on current content
+- As a user, I want the bot to intelligently navigate through multiple pages to gather complete information
+- As a user, I want to see what pages the bot explored to build trust in the answer
+- As a user, I want a simple web interface to interact with the chatbot
 
 ## Flow Design
 
-> Notes for AI:
-> 1. Consider the design patterns of agent, map-reduce, rag, and workflow. Apply them if they fit.
-> 2. Present a concise, high-level description of the workflow.
+### Applicable Design Pattern: Agent
 
-### Applicable Design Pattern:
+The chatbot uses an **Agent** design pattern where the system autonomously decides whether to explore more content or provide an answer based on current information.
 
-1. Map the file summary into chunks, then reduce these chunks into a final summary.
-2. Agentic file finder
-   - *Context*: The entire summary of the file
-   - *Action*: Find the file
+**Agent Context:**
+- User question and extracted keywords
+- Previously crawled page content
+- Available URLs discovered during crawling
+- Current exploration state (pages visited, pending URLs)
 
-### Flow high-level Design:
+**Agent Action Space:**
+- `explore`: Navigate to and scrape a new URL for more information
+- `answer`: Generate final response based on collected information
 
-1. **First Node**: This node is for ...
-2. **Second Node**: This node is for ...
-3. **Third Node**: This node is for ...
+### Flow High-level Design:
+
+1. **CrawlAndExtract Node**: Fetches and extracts content from URLs, discovers new links
+2. **AgentDecision Node**: Analyzes collected information and decides next action
+3. **DraftAnswer Node**: Generates comprehensive final answer from all collected content
 
 ```mermaid
 flowchart TD
-    firstNode[First Node] --> secondNode[Second Node]
-    secondNode --> thirdNode[Third Node]
+    start[User Question + Website URL] --> crawl[CrawlAndExtract]
+    crawl --> agent[AgentDecision]
+    agent -->|explore| crawl
+    agent -->|answer| draft[DraftAnswer]
+    draft --> end[Final Answer]
 ```
+
 ## Utility Functions
 
-> Notes for AI:
-> 1. Understand the utility function definition thoroughly by reviewing the doc.
-> 2. Include only the necessary utility functions, based on nodes in the flow.
+1. **Web Scraper** (`utils/web_scraper.py`)
+   - *Input*: URL string
+   - *Output*: Dict with content, links, title, and error status
+   - *Purpose*: Scrape webpage content and extract text and internal links
 
-1. **Call LLM** (`utils/call_llm.py`)
-   - *Input*: prompt (str)
-   - *Output*: response (str)
-   - Generally used by most nodes for LLM tasks
+2. **URL Utilities** (`utils/url_utils.py`)
+   - *Input*: URLs, question text
+   - *Output*: Processed URLs, keyword lists, relevance scores
+   - *Purpose*: Normalize URLs, extract keywords, find relevant navigation paths
 
-2. **Embedding** (`utils/get_embedding.py`)
-   - *Input*: str
-   - *Output*: a vector of 3072 floats
-   - Used by the second node to embed text
+3. **Call LLM** (`utils/call_llm.py`)
+   - *Input*: Prompt string
+   - *Output*: LLM response string
+   - *Purpose*: Interface with OpenAI GPT-4 for agent decisions and answer generation
 
 ## Node Design
 
 ### Shared Store
 
-> Notes for AI: Try to minimize data redundancy
-
-The shared store structure is organized as follows:
+The shared store maintains the complete state of the crawling session:
 
 ```python
 shared = {
-    "key": "value"
+    "user_question": "How do I get a refund?",
+    "question_keywords": ["refund", "return", "policy"],
+    "urls_to_process": [1, 3],  # Queue of URL indices to crawl
+    "visited_urls": {0, 2},     # Set of already crawled URL indices
+    "url_content": {            # Stored content from crawled pages
+        0: {"url": "...", "title": "...", "content": "..."},
+        2: {"url": "...", "title": "...", "content": "..."}
+    },
+    "all_discovered_urls": ["https://site.com", "https://site.com/support", ...],
+    "final_answer": None
 }
 ```
 
 ### Node Steps
 
-> Notes for AI: Carefully decide whether to use Batch/Async Node/Flow.
+1. **CrawlAndExtract Node**
+   - *Purpose*: Fetch webpage content and extract relevant information
+   - *Type*: Regular Node
+   - *Steps*:
+     - *prep*: Get next URL from processing queue and question keywords
+     - *exec*: Scrape website, extract content and links, filter for relevance
+     - *post*: Store content, update discovered URLs, mark as visited, return "agent_decide"
 
-1. First Node
-  - *Purpose*: Provide a short explanation of the node’s function
-  - *Type*: Decide between Regular, Batch, or Async
-  - *Steps*:
-    - *prep*: Read "key" from the shared store
-    - *exec*: Call the utility function
-    - *post*: Write "key" to the shared store
+2. **AgentDecision Node**
+   - *Purpose*: Decide whether to explore more content or generate answer
+   - *Type*: Regular Node  
+   - *Steps*:
+     - *prep*: Compile collected information and available next URLs
+     - *exec*: Use LLM to analyze context and decide next action (explore/answer)
+     - *post*: Queue next URL for exploration or proceed to answer generation
 
-2. Second Node
-  ...
+3. **DraftAnswer Node**
+   - *Purpose*: Generate comprehensive final answer from all collected content
+   - *Type*: Regular Node
+   - *Steps*:
+     - *prep*: Gather all collected content from crawled pages
+     - *exec*: Use LLM to synthesize information into comprehensive answer
+     - *post*: Store final answer and display result
 
+## Architecture
+
+**Backend**: FastAPI with the following endpoints:
+- `POST /chat`: Main chatbot interaction
+- `POST /configure`: Set target website URL  
+- `GET /config`: Get current configuration
+- `GET /health`: Health check
+- `GET /`: Serve frontend interface
+
+**Frontend**: HTML/CSS/JavaScript single-page application with:
+- Chat interface for user interactions
+- Website URL configuration panel
+- Real-time status indicators
+- Progress tracking during crawl operations
+
+**Integration**: The FastAPI backend integrates the PocketFlow agent and serves both API endpoints and the frontend interface.

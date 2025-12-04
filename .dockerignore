@@ -1,0 +1,70 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Version control
+.git
+.gitignore
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Development and testing
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Deployment files
+docker-compose*.yml
+deployment-prompt.md
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# AI/ML models (if any)
+*.pkl
+*.h5
+*.model
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/

@@ -90,3 +90,7 @@ coverage/
 
 # Optional REPL history
 .node_repl_history 
+
+# Documentation files (ignore all MD files except README.md)
+*.md
+!README.md

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Website Chatbot</h1>
+            <p>Ask questions about any website and get intelligent answers</p>
+        </header>
+
+        <div class="config-panel">
+            <div class="config-row">
+                <label for="websiteUrl">Website URL:</label>
+                <input 
+                    type="url" 
+                    id="websiteUrl" 
+                    placeholder="https://example.com" 
+                    value="https://example.com"
+                >
+                <button id="configBtn" onclick="configureWebsite()">Set</button>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div id="chatMessages" class="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        👋 Hello! I'm your website assistant. I can read through websites and answer questions about their content. Set a website URL above and ask me anything!
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-bar" id="statusBar">
+                <span id="statusText">Ready</span>
+                <div id="progressIndicator" class="progress-hidden">
+                    <div class="spinner"></div>
+                    <span id="progressText">Processing...</span>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    id="questionInput" 
+                    placeholder="Ask a question about the website..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button id="sendBtn" onclick="sendMessage()">
+                    <span id="sendText">Send</span>
+                    <div id="loadingSpinner" class="spinner hidden"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <h3>How it works:</h3>
+            <ol>
+                <li>Set the website URL you want to ask about</li>
+                <li>Ask any question about the website's content</li>
+                <li>The bot will intelligently crawl the site to find relevant information</li>
+                <li>Get a comprehensive answer based on multiple pages if needed</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
