@@ -7,6 +7,7 @@ load_dotenv()
 
 # Learn more about calling the LLM: https://the-pocket.github.io/PocketFlow/utility_function/llm.html
 def call_llm(prompt):    
+    # Use AI_BUILDER_TOKEN for ai-builders.space platform
     api_key = os.getenv("AI_BUILDER_TOKEN")
     if not api_key:
         raise ValueError("AI_BUILDER_TOKEN not found. Please set it in your .env file.")
